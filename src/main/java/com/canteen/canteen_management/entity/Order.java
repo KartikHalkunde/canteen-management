@@ -22,7 +22,7 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems;
 
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
@@ -52,8 +52,8 @@ public class Order {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        status = OrderStatus.PENDING;
-        paymentStatus = PaymentStatus.UNPAID;
+        if (status == null) status = OrderStatus.PENDING;
+        if (paymentStatus == null) paymentStatus = PaymentStatus.UNPAID;
     }
 
     @PreUpdate
