@@ -63,22 +63,21 @@ public class OrderService {
             orderItems.add(orderItem);
         }
 
-        orderItemRepository.saveAll(orderItems);
+        List<OrderItem> savedItems = orderItemRepository.saveAll(orderItems);
+        savedOrder.setOrderItems(savedItems);
 
         // clear cart after order placed
         cartService.clearCart(userId);
 
-        // reload order with items
-        return orderRepository.findById(savedOrder.getId())
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+        return savedOrder;
     }
 
     public List<Order> getUserOrders(Long userId) {
-        return orderRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        return orderRepository.findWithItemsByUserIdOrderByCreatedAtDesc(userId);
     }
 
     public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
+        return orderRepository.findWithItemsById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
     }
 }
