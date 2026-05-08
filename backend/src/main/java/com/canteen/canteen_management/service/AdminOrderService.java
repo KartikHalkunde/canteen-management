@@ -37,10 +37,15 @@ public class AdminOrderService {
 
         // Send notification when order is ready
         if (newStatus == Order.OrderStatus.READY) {
+            String itemSummary = order.getOrderItems().stream()
+                .map(item -> String.format("%dx %s", item.getQuantity(), item.getMenuItem().getName()))
+                .reduce((left, right) -> left + ", " + right)
+                .orElse("your order");
+
             sseService.sendNotification(
                     order.getUser().getId(),
                     "order-ready",
-                    "Your order #" + orderId + " is ready for pickup!"
+                "Your order is ready: " + itemSummary + ". Please pick it up before it gets cold."
             );
         }
 

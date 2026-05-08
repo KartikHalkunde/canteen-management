@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: #f7f3ec;
+  --ink: #1a1a1a;
+  --muted: #6b6b6b;
+  --card: #ffffff;
+  --accent: #d97706;
+  --accent-strong: #b45309;
+  --success: #166534;
+  --info: #1d4ed8;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+#root {
+  min-height: 100vh;
+}
