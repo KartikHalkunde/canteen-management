@@ -98,6 +98,15 @@ export default function App() {
     }
   }, [auth]);
 
+
+  useEffect(() => {
+    if (view !== "admin" || auth?.role !== "ADMIN") return;
+    const interval = setInterval(() => {
+      loadAdminOrders();
+    }, 30000); // refresh every 30 seconds
+    return () => clearInterval(interval);
+  }, [view, auth]);
+
   useEffect(() => {
     if (view === "orders" && auth?.role === "USER") {
       loadOrders();
